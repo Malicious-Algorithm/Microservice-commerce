@@ -26,7 +26,7 @@ public class CarritoServiceImpl implements CarritoService{
 
     @Override
     public void addToCarrito(Integer id_user, AddToCartDTO addToCartDTO) {
-        ProductDTO productoExistente = restTemplate.getForEntity("http://localhost:9091/products/productById/"+addToCartDTO.getProductId(), ProductDTO.class).getBody();
+        ProductDTO productoExistente = restTemplate.getForEntity("http://products:9091/products/productById/"+addToCartDTO.getProductId(), ProductDTO.class).getBody();
         Carrito carrito = new Carrito();
         carrito.setUserId(id_user);
         carrito.setCantidad(addToCartDTO.getCantidad());
@@ -37,16 +37,30 @@ public class CarritoServiceImpl implements CarritoService{
 
     @Override
     public List<ProductDTO> getAllProductsByIdUser(Integer id_user) {
-        UserResponseDTO userExistente = restTemplate.getForEntity("http://localhost:9093/cliente/getClienteById/"+id_user, UserResponseDTO.class).getBody();
+        UserResponseDTO userExistente = restTemplate.getForEntity("http://cliente:9093/cliente/getClienteById/"+id_user, UserResponseDTO.class).getBody();
         List<Carrito> carritoList = carritoReposity.findByUserId(userExistente.getId());
         List<ProductDTO> productDTO = new ArrayList<>();
         //anda a buscarme los productos que pertenezcan a este user.
         for (Carrito productos: carritoList) {
-            ProductDTO productoExistente = restTemplate.getForEntity("http://localhost:9091/products/productById/"+productos.getProduct_id(), ProductDTO.class).getBody();
+            ProductDTO productoExistente = restTemplate.getForEntity("http://products:9091/products/productById/"+productos.getProduct_id(), ProductDTO.class).getBody();
             productoExistente.setProducto(productoExistente.getProducto());
             productoExistente.setCategoria(productoExistente.getCategoria());
             productDTO.add(productoExistente);
         }
         return productDTO;
+    }
+
+    @Override
+    public void deleteFromCarrito(Integer id_usuario, Integer id_producto) {
+        UserResponseDTO userExistente = restTemplate.getForEntity("http://cliente:9093/cliente/getClienteById/" + id_usuario, UserResponseDTO.class).getBody();
+        List<Carrito> carritoList = carritoReposity.findByUserId(userExistente.getId());
+        for (Carrito productos : carritoList) {
+            if(productos.getProduct_id().equals(id_producto)){
+                ProductDTO productoExistente = restTemplate.getForEntity("http://products:9091/products/productById/" + id_producto, ProductDTO.class).getBody();
+                productos.setProduct_id(productoExistente.getProducto().getId());
+                carritoReposity.delete(productos);
+                break;
+            }
+        }
     }
 }

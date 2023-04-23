@@ -10,4 +10,5 @@ import java.util.List;
 public interface CarritoService {
     public void addToCarrito(Integer id_user, AddToCartDTO addToCartDTO);
     public List<ProductDTO> getAllProductsByIdUser(Integer id_user);
+    public void deleteFromCarrito(Integer id_usuario,Integer id_producto);
 }

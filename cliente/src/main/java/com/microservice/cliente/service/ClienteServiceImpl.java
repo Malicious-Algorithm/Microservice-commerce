@@ -43,5 +43,14 @@ public class ClienteServiceImpl implements ClienteService{
             clienteRepository.save(clienteExistente);
         }
     }
-}//carrito: id,product_id,user_id,created_date,quiantity.
-//favoritos: id,user_id,product_id,created_date.
+
+    @Override
+    public Cliente getClienteByNombre(String nombre) {
+        return clienteRepository.findByNombre(nombre);
+    }
+
+    @Override
+    public Cliente getClienteByEmail(String email) {
+        return clienteRepository.findByEmail(email);
+    }
+}

@@ -27,6 +27,18 @@ public class ClienteController {
         return ResponseEntity.ok(clienteService.getClienteById(id).orElseThrow());
     }
 
+    @GetMapping("/getClienteByNombre/{nombreCliente}")
+    public ResponseEntity<Cliente> getClienteById(/*Authorization*/@PathVariable String nombreCliente){
+        //aca va la custom exception
+        return ResponseEntity.ok(clienteService.getClienteByNombre(nombreCliente));
+    }
+
+    @GetMapping("/getClienteByEmail/{emailCliente}")
+    public ResponseEntity<Cliente> getClienteByEmail(/*Authorization*/@PathVariable String emailCliente){
+        //aca va la custom exception
+        return ResponseEntity.ok(clienteService.getClienteByEmail(emailCliente));
+    }
+
     @PutMapping("/updateClienteById/{id}")
     public ResponseEntity<String> updateCliente(/**/@PathVariable Integer id, @RequestBody Cliente cliente){
         clienteService.updateCliente(id,cliente);

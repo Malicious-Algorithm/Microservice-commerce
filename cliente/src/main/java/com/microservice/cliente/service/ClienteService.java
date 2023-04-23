@@ -8,4 +8,7 @@ public interface ClienteService {
     public void addCliente(Cliente cliente);
     public Optional<Cliente> getClienteById(Integer id);
     public void updateCliente(Integer id, Cliente cliente);
+
+    public Cliente getClienteByNombre(String nombre);
+    public Cliente getClienteByEmail(String email);
 }
