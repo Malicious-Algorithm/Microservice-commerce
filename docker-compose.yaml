@@ -18,6 +18,43 @@ services:
       - USER=root
     networks:
       - my-network
+  authtoken:
+    image: authtoken
+    ports:
+      - "9099:9099"
+    depends_on:
+      - mysql
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/ecommerce?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+      - AUTH_PORT=9099
+      - ECOMMERCE_DB_NAME=ecommerce
+      - MYSQL_IP=localhost
+      - MYSQL_PORT=3306
+      - PASS=password
+      - USER=root
+    networks:
+      - my-network
+
+  carrito:
+    image: carrito
+    ports:
+      - "9094:9094"
+    depends_on:
+      - mysql
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/ecommerce?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+      - CARRITO_PORT=9094
+      - ECOMMERCE_DB_NAME=ecommerce
+      - MYSQL_IP=localhost
+      - MYSQL_PORT=3306
+      - PASS=password
+      - USER=root
+    networks:
+      - my-network
   cliente:
     image: cliente
     ports:
@@ -68,6 +105,15 @@ services:
       - mysql_data:/var/lib/mysql
     networks:
       - my-network
+
+  lb:
+    image: dockercloud/haproxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - my-network
+    ports:
+      - "8080:8080"
 volumes:
   mysql_data:
 
