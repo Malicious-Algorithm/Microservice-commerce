@@ -8,7 +8,7 @@ import com.microservice.carrito.payload.response.ProductDTO;
 import java.util.List;
 
 public interface CarritoService {
-    public void addToCarrito(Integer id_user, AddToCartDTO addToCartDTO);
-    public List<ProductDTO> getAllProductsByIdUser(Integer id_user);
-    public void deleteFromCarrito(Integer id_usuario,Integer id_producto);
+    public void addToCarrito(Integer id_user, AddToCartDTO addToCartDTO,String authorizationReq);
+    public List<ProductDTO> getAllProductsByIdUser(Integer id_user, String authorizationReq);
+    public void deleteFromCarrito(Integer id_usuario,Integer id_producto,String authorizationReq);
 }

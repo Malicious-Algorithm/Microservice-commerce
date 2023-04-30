@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import org.springframework.http.HttpHeaders;
@@ -22,8 +23,9 @@ public class AuthorizationServiceImpl implements AuthorizationService{
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", authorizationReq);
             HttpEntity<String> request = new HttpEntity<>(headers);
-            ResponseAuthorization auth = restTemplate.exchange("http://localhost:9099/getAuthentcated", HttpMethod.GET, request, ResponseAuthorization.class).getBody();
+            ResponseAuthorization auth = restTemplate.exchange("http://authtoken:9099/getAuthentcated", HttpMethod.GET, request, ResponseAuthorization.class).getBody();
             return auth;
+            //aca throw Exception UNAUTHORIZED ya que sin esto devuelve un 500!
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }

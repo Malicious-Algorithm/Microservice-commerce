@@ -15,10 +15,9 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-    @PostMapping("/newCliente")
+    @PostMapping("/registrarNuevoCliente")
     public ResponseEntity<String> addNewCiente(@RequestBody Cliente cliente){
-        clienteService.addCliente(cliente);
-        return ResponseEntity.ok("Nuevo cliente agregado");
+        return ResponseEntity.ok(clienteService.addCliente(cliente));
     }
 
     @GetMapping("/getClienteById/{id}")

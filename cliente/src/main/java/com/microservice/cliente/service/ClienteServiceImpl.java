@@ -16,8 +16,14 @@ public class ClienteServiceImpl implements ClienteService{
     @Autowired
     private ClienteRepository clienteRepository;
     @Override
-    public void addCliente(Cliente cliente) {
-        clienteRepository.save(cliente);
+    public String addCliente(Cliente cliente) {
+        Cliente clienteOptional = clienteRepository.findByEmail(cliente.getEmail());
+        if (clienteOptional != null){
+            return "Cliente existente";
+        }else {
+            clienteRepository.save(cliente);
+            return "Usuario Agregado";
+        }
     }
 
     @Override

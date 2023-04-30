@@ -7,9 +7,7 @@ import com.microservice.authToken.payload.request.JwtRequest;
 import com.microservice.authToken.payload.response.JwtResponse;
 import com.microservice.authToken.repository.UserRepository;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -19,10 +17,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-
-
-import java.util.List;
-
 
 import static com.microservice.authToken.jwt.JwtUtil.SECRET_KEY;
 
@@ -39,14 +33,6 @@ public class AuthController {
     private UserDetailsService userDetailsService;
     @Autowired
     private UserRepository userRepository;
-
-    /*
-    *   Malicious-Algorithm: The following microservice is about JWT. It was the worst experience trying to implement this technology in Java Spring Boot.
-    *   You'll go mad/crazy if you try this. It's a rabbit hole basically.
-    *   Please, do some good for you and don't try this. Implement this in .net, JS, whatever but do not use Java for this.
-    *
-    *   Kept reading?, okay, you asked for it, here ya go champ:
-     */
 
 
     @PostMapping("/authenticate")
@@ -70,7 +56,7 @@ public class AuthController {
         Claims claims = Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token).getBody(); //? this decodes the incoming JWT
         String username = claims.getSubject();
         Cliente user = userRepository.findByNombre(username); //TODO: quizas aca hacer la llamada al microservicio de cliente?
-        return ResponseEntity.ok(user);//fk u
+        return ResponseEntity.ok(user);
     }
 
     private void authenticate(String username, String password) throws Exception {

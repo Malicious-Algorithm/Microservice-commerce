@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import io.jsonwebtoken.*;
 
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 
 import java.time.Instant;
 import java.util.Date;

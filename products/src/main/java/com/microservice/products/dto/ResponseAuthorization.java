@@ -8,8 +8,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ResponseAuthorization {
-    private String token;
     private String email;
     private Integer id;
     private String nombre;
+    private String apellido;
+    private String password;
+
+    public ResponseAuthorization(){}
 }
